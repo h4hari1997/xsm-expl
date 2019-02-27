@@ -1,0 +1,15 @@
+0
+2056
+0
+0
+0
+0
+0
+0
+MOV R0, 1
+MOV R1, 2
+ADD R0, R1
+MOV R1, 3
+ADD R0, R1
+MOV R1, 4
+ADD R0, R1
