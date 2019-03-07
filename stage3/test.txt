@@ -1,0 +1,7 @@
+begin
+read(a);
+do
+write(a);
+a=a-1;
+while(a>=5);
+end
