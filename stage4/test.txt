@@ -1,0 +1,13 @@
+
+
+decl
+	int i,j,k,*a,*b,*c;
+enddecl
+begin
+a=&k;
+b=5;
+write(b);
+write(&i);
+write(&i+&j+a);
+
+end
