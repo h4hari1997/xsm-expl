@@ -1,0 +1,30 @@
+decl
+ int sum(int x,int y),a;
+enddecl
+
+int sum(int x,int y)
+{
+decl
+enddecl
+begin
+return x<y;
+end
+
+
+}
+
+int main()
+{
+ decl
+  int b,c,d;
+ enddecl
+
+ begin
+  read(b);
+  read(c);
+  d = sum(b,c);
+  write(d);
+
+  return 0;
+end
+}
