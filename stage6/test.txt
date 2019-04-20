@@ -1,0 +1,37 @@
+
+
+type
+  List
+  {
+    int data;
+    List next;
+  }
+endtype
+
+decl
+    List head;
+enddecl
+
+int main()
+{
+  decl
+    int length, x,y;
+    List p, q,r;
+  enddecl
+
+  begin
+    x = initialize();
+    p=alloc();
+  read(p.data);
+    write(y);
+
+    y=p.data+1;
+    write(y);
+    write(p.data);
+    write((p.data)+1);
+
+
+
+    return 1;
+  end
+}
