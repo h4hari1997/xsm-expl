@@ -157,7 +157,7 @@ void printTypetable();
 
 void printField(struct Typetable *type);
 
-void Typeprint(struct Typetable *type);
+void printFieldType(struct Typetable *type);
 
 struct Gsymbol *GLookup(char * name);
 
@@ -176,6 +176,8 @@ void mainfundef(struct tnode *body);
 void funcdef(struct Typetable *type,struct tnode *func,struct Paramstruct *Phead,struct tnode *body);
 
 int checkequivalence(struct Paramstruct *declparameters, struct Paramstruct *formalparameters);
+
+void reverseparamlist(struct Paramstruct *Phead);
 
 char *getFunctionname(int label);
 

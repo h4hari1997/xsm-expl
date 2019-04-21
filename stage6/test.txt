@@ -1,37 +1,59 @@
 
 
 type
-  List
+  node
   {
-    int data;
-    List next;
+    int d;
+    int s;
+    int t;
   }
 endtype
 
 decl
-    List head;
+  node y,z,gcd(int a,int b);
 enddecl
+
+node gcd(int a,int b)
+{
+  decl
+    int q,r,temp;
+  enddecl
+
+  begin
+    if(b==0) then
+      y.d = a;
+      y.s = 1;
+      y.t = 0;
+    else
+      q = a/b;
+      r = a%b;
+      z = gcd(b,r);
+      temp = z.s;
+      y.s = z.t;
+      y.t = temp - (q*z.t);
+    endif;
+
+  return y;
+  end
+}
 
 int main()
 {
   decl
-    int length, x,y;
-    List p, q,r;
+    node res;
+    int a,b,c;
   enddecl
 
   begin
-    x = initialize();
-    p=alloc();
-  read(p.data);
-    write(y);
+    c = initialize();
+    y = alloc();
+    read(a);
+    read(b);
+    res = gcd(a,b);
+    write(res.d);
+    write(res.s);
+    write(res.t);
 
-    y=p.data+1;
-    write(y);
-    write(p.data);
-    write((p.data)+1);
-
-
-
-    return 1;
+  return 0;
   end
 }

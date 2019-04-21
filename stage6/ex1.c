@@ -170,7 +170,7 @@ int codeGen(struct tnode *t)
 				exit(0);
 			}
 
-			if(Ltemp!=NULL)
+		if(Ltemp!=NULL)
 			{
 					Ttemp=Ltemp->type;
 					fprintf(target_file,"MOV R%d, BP\n",x);
@@ -189,7 +189,7 @@ int codeGen(struct tnode *t)
 			else if(Gtemp!=NULL)
 			{
 					Ttemp=Gtemp->type;
-					fprintf(target_file,"MOV R%d, [%d]\n",x,t->Gentry->binding);
+					fprintf(target_file,"MOV R%d, [%d]\n",x,Gtemp->binding);
 			}
 
 			else
@@ -334,17 +334,26 @@ int codeGen(struct tnode *t)
 					exit(0);
 				}
 
-				p=t->right;
+				x=0;
+				y--;
 				Ptemp=Gtemp->paramlist;
 
 				while(Ptemp!=NULL)
 				{
-					if(p->right->type!=Ptemp->type)
+					z=0;
+					p=t->right;
+					while(z<y)
 					{
+						z++;
+						p=p->left;
+					}
+					if(Ptemp->type!=p->right->type)
+					{
+						printf("-----%s ------ %s---",printType(p->right->type),printType(Ptemp->type));
 						printf("Incorrect Parameter (%s) type for function %s\n",Ptemp->name,t->varname);
 						exit(0);
 					}
-					p=p->left;
+					y--;
 					Ptemp=Ptemp->next;
 				}
 
@@ -483,7 +492,7 @@ int codeGen(struct tnode *t)
 		case _NULL_:
 			x = getReg();
 			fprintf(target_file, "MOV R%d, -1\n", x);
-			return -1;
+			return x;
 
 		case _BRKP_ :
 			fprintf(target_file,"BRKP\n");
@@ -596,18 +605,23 @@ int codeGen(struct tnode *t)
 
 			if(Ltemp!=NULL)
 			{
+				Ttemp=Ltemp->type;
 				fprintf(target_file, "MOV R%d, BP\n", y);
 				fprintf(target_file, "ADD R%d, %d\n", y, Ltemp->binding);
 				fprintf(target_file, "MOV R%d, [R%d]\n", y,y);
 			}
 			else if(Ptemp!=NULL)
 			{
+				Ttemp=Ptemp->type;
 				fprintf(target_file, "MOV R%d, BP\n", y);
 				fprintf(target_file, "SUB R%d, %d\n", y, Ptemp->binding+2);
 				fprintf(target_file, "MOV R%d, [R%d]\n", y,y);
 			}
 			else if(Gtemp!=NULL)
+			{
+					Ttemp=Gtemp->type;
 					fprintf(target_file, "MOV R%d, [%d]\n", y,Gtemp->binding);
+			}
 
 			p=t->left;
 
@@ -1491,14 +1505,14 @@ void printField(struct Typetable *type)
 
 		while(temp!=NULL)
 		{
-			Typeprint(temp->type);
+			printFieldType(temp->type);
 			printf("  Field name : %s  ",temp->name);
 			printf("Field index : %d\n",temp->fieldIndex);
 			temp = temp->next;
 		}
 }
 
-void Typeprint(struct Typetable *type)
+void printFieldType(struct Typetable *type)
 {
 		printf("Field Type : %s",type->name);
 }
@@ -1810,19 +1824,7 @@ void inorderprint(struct tnode *t)
 
 char *printType(struct Typetable *type)
 {
-	char *boolean=strdup("Boolean");
-	char *integer=strdup("Integer");
-	char *string=strdup("String");
-	char *tless=strdup("       ");
-
-	if(type==TLookup("Boolean"))
-		return boolean;
-	else if(type==TLookup("Integer"))
-		return integer;
-	else if(type==TLookup("String"))
-		return string;
-	else
-		return tless;
+	return type->name;
 }
 
 char *printvartype(int nodetype)
