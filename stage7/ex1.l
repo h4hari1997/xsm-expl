@@ -80,7 +80,7 @@
 "str"					{return STR;}
 
 
-[a-zA-Z][a-zA-Z0-9]*		{
+[a-zA-Z_][_a-zA-Z0-9]*		{
 			varname = strdup(yytext);
 			yylval.no = createTree(0,TLookup("Integer"),varname,_ID_,NULL,NULL,NULL);
 			return ID;
@@ -93,7 +93,7 @@
 			return NUM;
 		}
 
-["][ a-zA-Z0-9]+["]	{
+["][ .a-zA-Z0-9]+["]	{
 				str=strdup(yytext+1);
 				str[yyleng-2]='\0';
 				yylval.no = createTree(0,TLookup("String"),str,_STR_,NULL,NULL,NULL);
