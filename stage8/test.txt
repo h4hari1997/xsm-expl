@@ -1,0 +1,76 @@
+
+
+	class
+	A
+	{
+	decl
+	int x;
+	int f(int n);
+	enddecl
+	int f(int n)
+	{
+			decl
+			int p;
+			enddecl
+			begin
+			if(n<=1)then
+			p=1;
+			else
+			p=n*self.f(n-1);
+			endif;
+			return p;
+			end
+	}
+	}
+	B extends A
+	{
+	decl
+	int y;
+	int f(int n);
+	enddecl
+	int f(int n)
+	{
+		decl
+		int q;
+		enddecl
+		begin
+		if(n==1)then
+		q=1;
+		else
+		if(n==0)then
+		q=1;
+		else
+		q=self.f(n-1)+self.f(n-2);
+		endif;
+		endif;
+		return q;
+		end
+	}
+	}
+	endclass
+
+	decl
+	A obj;
+	enddecl
+
+	int main()
+	{
+		decl
+		int x,n;
+		enddecl
+		begin
+		x=initialize();
+		read(n);
+		if(n>5) then
+		obj=new(B);
+		else
+		obj=new(A);
+		endif;
+		x=obj.f(n);
+		write(x);
+		return 1;
+		end
+
+
+
+	}
