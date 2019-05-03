@@ -729,7 +729,6 @@ int codeGen(struct tnode *t)
 			for(y=-1;y<reg;y++)													//Push Existing Registers
 				fprintf(target_file, "PUSH R%d\n",y+1);
 
-
 			reg=-1;
 
 			x=getReg();
@@ -777,14 +776,12 @@ int codeGen(struct tnode *t)
 				z++;
 			}
 
-			freeReg();
-
 			fprintf(target_file, "SUB SP, 2\n");			// Pop self address
 			z+=2;
 
+			freeReg();
 			reg=y;
-
-			for(;y>=0;y--)
+			for(y--;y>=0;y--)
 			{
 				fprintf(target_file, "POP R%d\n", y);			//Pop Registers
 				z++;
@@ -2548,6 +2545,7 @@ void vartypechecker(struct tnode *t)
 
 void typechecker(struct tnode *t)
 {
+	int x;
 	switch(t->nodetype)
 	{
 
@@ -2631,7 +2629,7 @@ void typechecker(struct tnode *t)
 				break;*/
 
 		case _ASSIGN_ :
-
+		
 					if( ( t->right->type==TLookup("Type") ) && ( ( t->left->type==TLookup("Integer") ) || ( t->left->type==TLookup("String") ) ))
 					{
 						yyerror("Type Mismatch : User Defined Type (Assignment)\n");

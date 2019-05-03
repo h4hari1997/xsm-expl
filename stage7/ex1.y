@@ -210,6 +210,8 @@ MDecl  : Type ID '(' ParamList ')' ';' 		{																			//Installing the me
 																						}
 																						Class_Minstall(Class,$2->varname,type,Phead);
 																						Phead=Ptail=NULL;
+																						Lhead=Ltail=NULL;
+																						localbind=1;
 																						parambind=1;
 																					}
 																						;
@@ -541,7 +543,9 @@ FieldFunction : ID '.' ID '(' ArgList ')' 	{																	//This will not occ
  																							}
 
 							| Field '.' ID '(' ArgList ')' {
-																								struct Memberfunclist *Mtemp = Class_Mlookup(CLookup($1->varname),$3->varname);
+																								struct Fieldlist *Ftemp = Class_Flookup(Class,$1->left->varname);
+
+																								struct Memberfunclist *Mtemp = Class_Mlookup(Ftemp->Ctype,$3->varname);
 																								if(Mtemp==NULL)
 																								{
 																									printf("***No Method named %s in class %s\n",$3->varname,$1->varname);
@@ -575,7 +579,6 @@ E 	: E PLUS E 							{$$ = createTree(0, TLookup("Integer"), "\0",_PLUS_,$1,NULL
 	| ID '[' E ']' '[' E ']'	{$$ = createTree(0,$1->type,$1->varname,_MATRIX_,$1,$3,$6);}
 	| MUL ID 									{$$ = createTree(0,$2->type,$2->varname,_PTR_,$2,NULL,NULL);}
 	| '&' ID									{$$ = createTree(0,$2->type,$2->varname,_ADDR_,$2,NULL,NULL);}
-
 	| ID '(' ArgList ')'			{$$ = createTree(0,$1->type,$1->varname,_FUNC_,$1,NULL,$3);}
 	;
 
